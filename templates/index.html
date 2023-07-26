@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Data Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        // Function to fetch updated data every 30 seconds
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    updateChart(data);
+                    setTimeout(fetchData, 30000);  // Fetch data every 30 seconds
+                });
+        }
+
+        // Function to update the chart with new data
+        function updateChart(data) {
+            chart.data.labels.push(data.time);
+            chart.data.datasets[0].data.push(data.value);
+            chart.update();
+        }
+
+        // Initialize the chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Data',
+                    data: [],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1,
+                    fill: 'origin'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true
+                    },
+                    y: {
+                        display: true
+                    }
+                }
+            }
+        });
+
+        // Start fetching data
+        fetchData();
+    </script>
+</body>
+</html>
