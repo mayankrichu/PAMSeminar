@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0">
+	<header>
+		<product version="1.0" lang="en">Vensim</product>
+		<vendor>Ventana Systems, Inc.</vendor>
+		<created>
+		</created>
+		<modified>
+		</modified>
+		<name>
+		</name>
+		<caption>
+		</caption>
+	</header>
+	<sim_specs method="RK4" time_units="Month">
+		<start> 0</start>
+		<stop> 50</stop>
+		<dt> 0.125</dt>
+	</sim_specs>
+	<model>
+		<variables>
+			<stock name="Afforestration">
+				<units></units>
+				<doc></doc>
+					<eqn>
+					300
+					</eqn>
+					<inflow>
+					afforestration rate
+					</inflow>
+			</stock>
+			<stock name="private_transport">
+				<units></units>
+				<doc></doc>
+					<eqn>
+					1000
+					</eqn>
+			</stock>
+			<stock name="public_transport">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+					200
+					</eqn>
+			</stock>
+			<aux name="awareness_campaign">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	IF_THEN_ELSE(total_co2_difference>200 :AND: total_co2_difference<400, 5,0)
+	+IF_THEN_ELSE(total_co2_difference>400, 8, 0)					</eqn>
+			</aux>
+			<aux name="public_mobility_increase_rate">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	IF_THEN_ELSE( total_co2_difference > 200, 2 , 0 ) +
+	
+	IF_THEN_ELSE( awareness_campaign > 0:AND:awareness_campaign < 8 , 4 , 0 )					</eqn>
+			</aux>
+			<aux name="Road_Transport">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	public_transport+private_transport					</eqn>
+			</aux>
+			<aux name="total_co2_absorption">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	Afforestration					</eqn>
+			</aux>
+			<aux name="total_co2_difference">
+				<units>million_tons/Year</units>
+				<doc></doc>
+					<eqn>
+	total_co2_emission - total_co2_absorption					</eqn>
+			</aux>
+			<aux name="total_co2_emission">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	Energy+Industry+Transport_co2_emission + Agriculture +Buildings					</eqn>
+			</aux>
+			<aux name="Transport_co2_emission">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	Air_transport+Marine_Transport+Road_Transport					</eqn>
+			</aux>
+			<aux name="afforestration_rate">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0.31					</eqn>
+			</aux>
+			<aux name="Agriculture">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="Air_transport">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="Buildings">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="Energy">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="Industry">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="Marine_Transport">
+				<units>million_tons</units>
+				<doc></doc>
+					<eqn>
+	0					</eqn>
+			</aux>
+			<aux name="technological_advancement_rate">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	5					</eqn>
+			</aux>
+			<aux name="Vehicle_addition_rate">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0.5					</eqn>
+			</aux>
+		</variables>
+	</model>
+</xmile>
